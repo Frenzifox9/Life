@@ -1,0 +1,16 @@
+{
+  "name": "FrenziLife",
+  "short_name": "FrenziLife",
+  "description": "Tous tes outils du quotidien au même endroit.",
+  "lang": "fr-FR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06152a",
+  "theme_color": "#071a33",
+  "orientation": "any",
+  "icons": [
+    {"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}

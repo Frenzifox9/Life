@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071a33">
+  <meta name="description" content="FrenziLife — tous tes outils du quotidien au même endroit.">
+  <title>FrenziLife</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="toast" class="toast"></div>
+
+<header class="topbar">
+  <a class="brand" href="#accueil" aria-label="Accueil FrenziLife">
+    <span class="logo">F</span><span>FrenziLife</span>
+  </a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="#accueil">Accueil</a>
+    <a href="#taches">Tâches</a>
+    <a href="#notes">Notes</a>
+    <a href="#calendrier">Calendrier</a>
+    <a href="#outils">Outils</a>
+    <a href="#parametres">Paramètres</a>
+  </nav>
+  <button id="installBtn" class="install-btn" hidden>📲 Installer FrenziLife</button>
+</header>
+
+<main>
+<section id="accueil" class="page-section hero">
+  <div class="hero-card">
+    <div>
+      <span class="eyebrow">ASSISTANT DU QUOTIDIEN</span>
+      <h1>Frenzi<span>Life</span></h1>
+      <p>Tous tes outils du quotidien au même endroit.</p>
+      <div class="device" id="deviceType">💻 PC</div>
+    </div>
+    <div class="clock-card">
+      <div id="dateNow"></div>
+      <strong id="timeNow">--:--:--</strong>
+    </div>
+  </div>
+  <div class="grid three">
+    <article class="card stat-card"><span>📋</span><div><b id="taskCount">0</b><small>tâches restantes</small></div></article>
+    <article class="card stat-card"><span>📝</span><div><b id="noteCount">0</b><small>notes enregistrées</small></div></article>
+    <article class="card stat-card"><span>📅</span><div><b id="eventCount">0</b><small>événements</small></div></article>
+  </div>
+  <div class="section-title"><h2>Accès rapide</h2></div>
+  <div class="grid tools-grid" id="quickTools"></div>
+</section>
+
+<section id="taches" class="page-section">
+  <div class="section-title"><div><span class="eyebrow">ORGANISATION</span><h2>Liste de tâches</h2></div></div>
+  <div class="card form-card">
+    <form id="taskForm" class="inline-form">
+      <input id="taskInput" required placeholder="Ajouter une tâche…" maxlength="160">
+      <select id="taskPriority" aria-label="Priorité"><option value="low">Basse</option><option value="normal" selected>Normale</option><option value="high">Haute</option></select>
+      <button class="primary" type="submit">＋ Ajouter</button>
+    </form>
+    <div id="tasksList" class="list"></div>
+  </div>
+</section>
+
+<section id="notes" class="page-section">
+  <div class="section-title"><div><span class="eyebrow">MÉMO</span><h2>Notes</h2></div></div>
+  <div class="card form-card">
+    <form id="noteForm" class="stack-form">
+      <input id="noteTitle" required placeholder="Titre de la note" maxlength="100">
+      <textarea id="noteBody" placeholder="Écris ta note…" rows="5"></textarea>
+      <button class="primary" type="submit">＋ Créer la note</button>
+    </form>
+    <input id="noteSearch" class="search-input" placeholder="🔎 Rechercher une note…">
+    <div id="notesList" class="notes-grid"></div>
+  </div>
+</section>
+
+<section id="calendrier" class="page-section">
+  <div class="section-title">
+    <div><span class="eyebrow">PLANIFICATION</span><h2>Calendrier</h2></div>
+    <div class="calendar-controls">
+      <button class="black-btn" id="prevMonth">‹</button>
+      <button class="black-btn" id="todayMonth">Aujourd'hui</button>
+      <button class="black-btn" id="nextMonth">›</button>
+    </div>
+  </div>
+  <div class="card calendar-card">
+    <div class="calendar-head"><h3 id="calendarTitle"></h3><div class="view-switch"><button data-view="month" class="active">Mois</button><button data-view="week">Semaine</button><button data-view="day">Jour</button></div></div>
+    <div id="calendarGrid"></div>
+  </div>
+  <div class="card form-card event-form-card">
+    <h3>Ajouter / modifier un événement</h3>
+    <form id="eventForm" class="grid form-grid">
+      <input type="hidden" id="eventId">
+      <input id="eventTitle" required placeholder="Nom de l'événement">
+      <input id="eventDate" type="date" required>
+      <input id="eventTime" type="time">
+      <button class="primary" type="submit">Enregistrer</button>
+      <button class="black-btn" type="button" id="cancelEvent">Annuler</button>
+    </form>
+  </div>
+</section>
+
+<section id="outils" class="page-section">
+  <div class="section-title"><div><span class="eyebrow">BOÎTE À OUTILS</span><h2>Outils</h2></div></div>
+  <div class="tool-search"><input id="toolSearch" class="search-input" placeholder="🔎 Rechercher un outil…"></div>
+  <div class="grid tool-panels">
+    <article class="card tool-panel" data-tool="minuteur timer temps"><h3>⏱️ Minuteur</h3>
+      <div class="timer-display" id="timerDisplay">00:00:00</div>
+      <div class="grid timer-inputs"><input id="timerH" type="number" min="0" max="99" value="0" placeholder="Heures"><input id="timerM" type="number" min="0" max="59" value="5" placeholder="Minutes"><input id="timerS" type="number" min="0" max="59" value="0" placeholder="Secondes"></div>
+      <div class="actions"><button class="primary" id="timerStart">Démarrer</button><button class="black-btn" id="timerPause">Pause</button><button class="black-btn" id="timerReset">Réinitialiser</button></div>
+    </article>
+
+    <article class="card tool-panel" data-tool="chronometre chrono temps"><h3>⏰ Chronomètre</h3>
+      <div class="timer-display" id="stopwatchDisplay">00:00:00.00</div>
+      <div class="actions"><button class="primary" id="swStart">Démarrer</button><button class="black-btn" id="swPause">Pause</button><button class="black-btn" id="swReset">Réinitialiser</button></div>
+    </article>
+
+    <article class="card tool-panel" data-tool="calculatrice calcul math"><h3>🧮 Calculatrice</h3>
+      <input id="calcDisplay" class="calc-display" readonly value="0">
+      <div id="calcKeys" class="calc-grid"></div>
+    </article>
+
+    <article class="card tool-panel" data-tool="argent argent dépenses revenus solde"><h3>💰 Calculateur d'argent</h3>
+      <div class="grid form-grid">
+        <input id="moneyAmount" type="number" step="0.01" placeholder="Montant (€)">
+        <select id="moneyType"><option value="income">Revenu</option><option value="expense">Dépense</option></select>
+        <input id="moneyLabel" placeholder="Libellé">
+        <button class="primary" id="moneyAdd">Ajouter</button>
+      </div>
+      <div class="money-balance">Solde : <strong id="balance">0,00 €</strong></div>
+      <div id="moneyHistory" class="mini-list"></div>
+    </article>
+
+    <article class="card tool-panel" data-tool="courses liste courses produits"><h3>🛒 Liste de courses</h3>
+      <form id="shoppingForm" class="inline-form"><input id="shoppingInput" required placeholder="Produit"><input id="shoppingQty" type="number" min="1" value="1" aria-label="Quantité"><button class="primary">Ajouter</button></form>
+      <div id="shoppingList" class="list"></div>
+      <small id="shoppingRemaining"></small>
+    </article>
+
+    <article class="card tool-panel" data-tool="lien générateur url link"><h3>🔗 Générateur de lien</h3>
+      <input id="linkText" placeholder="Texte à afficher">
+      <input id="linkUrl" placeholder="https://exemple.fr">
+      <div class="link-result" id="linkResult">Ton lien apparaîtra ici.</div>
+      <div class="actions"><button class="primary" id="makeLink">Créer le lien</button><button class="black-btn" id="copyLink">Copier</button></div>
+    </article>
+
+    <article class="card tool-panel" data-tool="mot passe password sécurité"><h3>🔐 Générateur de mot de passe</h3>
+      <div class="password-row"><input id="passwordResult" readonly placeholder="Ton mot de passe"><button class="black-btn" id="copyPassword">Copier</button></div>
+      <label>Longueur : <b id="passLengthLabel">16</b><input id="passLength" type="range" min="6" max="64" value="16"></label>
+      <label><input id="upper" type="checkbox" checked> Majuscules</label>
+      <label><input id="lower" type="checkbox" checked> Minuscules</label>
+      <label><input id="numbers" type="checkbox" checked> Chiffres</label>
+      <label><input id="symbols" type="checkbox" checked> Caractères spéciaux</label>
+      <button class="primary" id="generatePassword">Générer</button>
+    </article>
+  </div>
+</section>
+
+<section id="parametres" class="page-section">
+  <div class="section-title"><div><span class="eyebrow">PERSONNALISATION</span><h2>Paramètres</h2></div></div>
+  <div class="grid settings-grid">
+    <div class="card setting"><h3>✨ Animations</h3><p>Activer les animations discrètes du site.</p><label class="switch"><input id="animationsToggle" type="checkbox" checked><span></span></label></div>
+    <div class="card setting"><h3>🌗 Thème</h3><p>Choisis l'apparence de FrenziLife.</p><select id="themeSelect"><option value="dark">Sombre</option><option value="light">Clair</option></select></div>
+    <div class="card setting danger"><h3>🗑️ Données locales</h3><p>Supprime toutes les données enregistrées dans ce navigateur.</p><button id="clearData" class="danger-btn">Effacer toutes les données</button></div>
+    <div class="card setting"><h3>ℹ️ À propos</h3><p>FrenziLife est une application web locale. Aucune donnée personnelle n'est envoyée à un serveur.</p><b>© 2026 Frenzifox</b></div>
+  </div>
+</section>
+</main>
+
+<footer>© 2026 Frenzifox · FrenziLife · Tes données restent dans ton navigateur.</footer>
+<script src="script.js"></script>
+</body>
+</html>
